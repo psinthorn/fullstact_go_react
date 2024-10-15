@@ -3,11 +3,12 @@ package users
 import (
 	"fmt"
 
-	mysql_db "github.com/psinthorn/fullstack_go_react/backend/api/users/datasources/mysql/users_db"
-	"github.com/psinthorn/fullstack_go_react/backend/api/users/domains/errors"
-	mysql_utils "github.com/psinthorn/fullstack_go_react/backend/api/users/utils/mysql"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/logger"
 
-	"github.com/psinthorn/fullstack_go_react/backend/api/users/logger"
+	mysql_db "github.com/psinthorn/fullstack_go_react/backend/api/users/datasources/mysql/users_db"
+
+	mysql_utils "github.com/psinthorn/fullstack_go_react/backend/api/users/utils/mysql"
 )
 
 const (
