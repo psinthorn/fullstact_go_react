@@ -3,7 +3,7 @@ package users
 import (
 	"strings"
 
-	"github.com/psinthorn/gostack_users-api/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
 )
 
 type User struct {
@@ -11,10 +11,10 @@ type User struct {
 	FirstName   string `json:"first_name" bson:"first_name"`
 	LastName    string `json:"last_name" bson:"last_name"`
 	Email       string `json:"email" bson:"email"`
-	Avatar      string `json: "avatar" bson: "avatar"`
-	Password    string `json: "password" bson: "password"`
+	Avatar      string `json:"avatar" bson:"avatar"`
+	Password    string `json:"password" bson:"password"`
 	Status      string `json:"status" bson:"status"`
-	DateCreated string `json: "date_created" bson: "date_created"`
+	DateCreated string `json:"date_created" bson:"date_created"`
 	// DateUpdated string `json: "date_created" bson: "date_created"`
 }
 

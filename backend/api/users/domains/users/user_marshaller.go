@@ -5,7 +5,7 @@ import "encoding/json"
 type PublicUser struct {
 	Id          int64  `json:"id"`
 	Status      string `json:"status"`
-	DateCreated string `json: "date_created"`
+	DateCreated string `json:"date_created"`
 }
 
 type PrivateUser struct {
@@ -13,12 +13,12 @@ type PrivateUser struct {
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	Email       string `json:"email"`
-	Avatar      string `json: "avatar"`
+	Avatar      string `json:"avatar"`
 	Status      string `json:"status"`
-	DateCreated string `json: "date_created"`
+	DateCreated string `json:"date_created"`
 }
 
-//Marshaller and return a sungle user
+// Marshaller and return a sungle user
 func (user *User) Marshall(isPublic bool) interface{} {
 	if isPublic {
 		return PublicUser{

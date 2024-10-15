@@ -1,3 +1,5 @@
+package mysql_db
+
 //TODO:
 //- package name
 //- Import mysql drivers
@@ -17,8 +19,6 @@
 // echo $mysql_users_password
 // echo $mysql_users_host
 // echo $mysql_users_schema
-
-package mysql_db
 
 import (
 	"database/sql"
