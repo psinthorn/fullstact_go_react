@@ -5,14 +5,12 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/psinthorn/gostack_users-api/domains/errors"
-	"github.com/psinthorn/gostack_users-api/domains/users"
-	services "github.com/psinthorn/gostack_users-api/services/users"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/users"
+	services "github.com/psinthorn/fullstact_go_react/backend/api/users/services/users"
 )
 
-//
 // Create new user
-//
 func Create(c *gin.Context) {
 
 	var user users.User
@@ -55,9 +53,7 @@ func Create(c *gin.Context) {
 
 }
 
-//
 // Get all users
-//
 func GetAll(c *gin.Context) {
 
 	users, getErr := services.UserService.GetAllUser()
@@ -70,9 +66,7 @@ func GetAll(c *gin.Context) {
 
 }
 
-//
 // Get user by ID
-//
 func Get(c *gin.Context) {
 
 	userId, err := strconv.ParseInt(c.Param("id"), 10, 64)

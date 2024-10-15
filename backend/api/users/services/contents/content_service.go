@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/psinthorn/gostack_users-api/domains/contents"
-	"github.com/psinthorn/gostack_users-api/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/contents"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
 )
 
 //

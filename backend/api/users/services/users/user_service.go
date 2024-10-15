@@ -3,10 +3,10 @@ package services
 import (
 	"fmt"
 
-	"github.com/psinthorn/gostack_users-api/domains/errors"
-	"github.com/psinthorn/gostack_users-api/domains/users"
-	"github.com/psinthorn/gostack_users-api/utils/crypto_utils"
-	date_utils "github.com/psinthorn/gostack_users-api/utils/date"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/users"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/utils/crypto_utils"
+	date_utils "github.com/psinthorn/fullstact_go_react/backend/api/users/utils/date"
 )
 
 var (

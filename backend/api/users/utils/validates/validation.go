@@ -3,7 +3,7 @@ package validate_utils
 import (
 	"strconv"
 
-	"github.com/psinthorn/gostack_users-api/domains/errors"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
 )
 
 func Id(IdParam string) (int64, *errors.ErrorRespond) {

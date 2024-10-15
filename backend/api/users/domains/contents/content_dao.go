@@ -1,10 +1,11 @@
 package contents
 
 import (
-	mysql_db "github.com/psinthorn/gostack_users-api/datasources/mysql/users_db"
-	"github.com/psinthorn/gostack_users-api/domains/errors"
-	date_utils "github.com/psinthorn/gostack_users-api/utils/date"
-	mysql_utils "github.com/psinthorn/gostack_users-api/utils/mysql"
+	mysql_db "github.com/psinthorn/fullstack_go_react/backend/api/users/datasources/mysql/users_db"
+	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
+
+	date_utils "github.com/psinthorn/fullstack_go_react/backend/api/users/utils/date"
+	mysql_utils "github.com/psinthorn/fullstack_go_react/backend/api/users/utils/mysql"
 )
 
 const (
@@ -56,9 +57,7 @@ func GetAll() ([]Content, *errors.ErrorRespond) {
 
 }
 
-//
 // Get content by ID
-//
 func (content *Content) Get() *errors.ErrorRespond {
 
 	// prepare statment

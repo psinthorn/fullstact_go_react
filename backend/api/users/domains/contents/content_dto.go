@@ -3,7 +3,7 @@ package contents
 import (
 	"strings"
 
-	"github.com/psinthorn/gostack_users-api/domains/errors"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/domains/errors"
 )
 
 type Content struct {
