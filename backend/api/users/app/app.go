@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/configs"
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/logger"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/configs"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/logger"
 )
 
 var (

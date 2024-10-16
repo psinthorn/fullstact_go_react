@@ -1,4 +1,4 @@
-module github.com/psinthorn/fullstact_go_react/backend/api/users
+module github.com/psinthorn/fullstack_go_react/backend/api/users
 
 go 1.22.5
 

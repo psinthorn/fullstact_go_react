@@ -1,8 +1,8 @@
 package app
 
 import (
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/controllers/index"
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/controllers/users"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/controllers/index"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/controllers/users"
 )
 
 func urlsMapping() {

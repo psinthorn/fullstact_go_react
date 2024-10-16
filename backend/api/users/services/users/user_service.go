@@ -3,10 +3,10 @@ package services
 import (
 	"fmt"
 
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/users"
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/utils/crypto_utils"
-	date_utils "github.com/psinthorn/fullstact_go_react/backend/api/users/utils/date"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/domains/errors"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/domains/users"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/utils/crypto_utils"
+	date_utils "github.com/psinthorn/fullstack_go_react/backend/api/users/utils/date"
 )
 
 var (
