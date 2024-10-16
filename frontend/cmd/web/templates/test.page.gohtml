@@ -6,7 +6,7 @@
             <div class="col">
                 <h1 class="mt-5">Test microservices</h1>
                 <hr>
-                <a href="javascript:viod(0);" id="brokerBtn" class="btn btn-outline-secondary">Test Broker</a>
+                <a href="javascript:void(0);" id="brokerBtn" class="btn btn-outline-secondary">Test Broker</a>
 
                 <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
                     <span class="text-muted">Output shows here...</span>
@@ -42,20 +42,20 @@
                 method: "POST"
             }
 
-            fetch("http:\/\/localhost:8080\/broker")
+            fetch("http:\/\/localhost:8080\/broker", body)
             .then((response) => response.json())
             .then((data) => {
                 sent.innerHTML = "<br> empty test sent"
-                received.innerHTML = JSON.stringify(data, undefine, 4);
+                received.innerHTML = JSON.stringify(data, undefined, 4);
                 if(data.error){
                     console.log(data.error);
-                }else(
+                }else{
                     output.innerHTML += `<br><br> ${data.message}`
-                )
+                }
             })
-            .catch((error)
+            .catch((error) => {
                 output.innerHTML += "Error: " + error;
-            )
+            })
         });
         
     </script>
