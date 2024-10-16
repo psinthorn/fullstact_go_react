@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	services "github.com/psinthorn/fullstact_go_react/backend/api/users/services/contents"
+	services "github.com/psinthorn/fullstack_go_react/backend/api/users/services/contents"
 )
 
 func Welcome(c *gin.Context) {

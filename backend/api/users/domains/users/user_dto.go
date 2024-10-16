@@ -3,7 +3,7 @@ package users
 import (
 	"strings"
 
-	"github.com/psinthorn/fullstact_go_react/backend/api/users/domains/errors"
+	"github.com/psinthorn/fullstack_go_react/backend/api/users/domains/errors"
 )
 
 type User struct {
