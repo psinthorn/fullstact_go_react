@@ -1,6 +1,44 @@
 version: '3'
 
 services:
+
+  # System requirement before start to implement any other apps 
+  postgres:
+    image: 'postgres:14.5'
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: movies
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  pgadmin:
+    # pgadmin container service work depends on postgres container service (db_postgres)
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=adminx@adminx.com
+      - PGADMIN_DEFAULT_PASSWORD=adminx
+    ports:
+      - 5050:80
+    restart: always
+    volumes:
+      - ./db-data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+# Start to docker container from here 
+
   broker-service:
     build:
       context: ./../broker-service
@@ -11,3 +49,17 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+  
+  auth-service:
+    build:
+      # context refer to app folder 
+      context: ./../auth-service/cmd/api
+      dockerfile: auth-service.dockerfile
+    restart: always
+    ports:
+      - "8081:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    
+

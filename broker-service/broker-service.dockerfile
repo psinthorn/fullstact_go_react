@@ -3,7 +3,6 @@
 # 1. Build golang container from base image and copy all the porject to WORKDIR in container 
 # Get Go base image
 
-
 FROM golang:1.23-alpine as builder
 
 RUN mkdir /app
