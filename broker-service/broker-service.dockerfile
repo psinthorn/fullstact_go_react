@@ -8,9 +8,9 @@ FROM golang:1.23-alpine as builder
 
 RUN mkdir /app
 
-COPY . /app
-
 WORKDIR /app
+
+COPY . /app
 
 RUN CGO_ENABLED=0 go build -o brokerApp ./cmd/api  
 
