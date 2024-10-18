@@ -1,6 +1,6 @@
 FRONTEND_BINARY=frontApp
-BROKER_BINARY=brokerApp
-AUTH_BINARY=authApp
+BROKER_BINARY=brokerAPI
+AUTH_BINARY=authAPI
 
 
 ## up: starts all containers in the background without forcing build

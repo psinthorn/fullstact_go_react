@@ -10,3 +10,13 @@
    <br>
    `go get github.com/go-chi/cors`
    <br>
+
+# How to connect Postgres database
+
+1. Install postgres driver
+   <br>
+
+```
+go get github.com/jackc/pgconn
+
+```
