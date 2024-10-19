@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"errors"
+	"fmt"
+	"net/http"
+)
 
 func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 
@@ -17,5 +21,29 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Compare user and password
+	// 1. validate user againts database by email address
+	user, err := app.Models.User.GetByEmail(requestPayload.Email)
+
+	if err != nil {
+		app.errorJSON(w, errors.New("invalid email address"), http.StatusBadRequest)
+		return
+	}
+
+	// Compare password
+	valid, err := user.PasswordMatches(requestPayload.Password)
+	if err != nil || !valid {
+		app.errorJSON(w, errors.New("invalid password"), http.StatusBadRequest)
+		return
+	}
+
+	// if not error then prepare data for write out back to request
+	// not need to check error here we have been check from above already
+	payload := jsonResponse{
+		Message: fmt.Sprintf("User %s is logged in", user.Email),
+		Data:    user,
+		Error:   false,
+	}
+
+	app.writeJSON(w, http.StatusAccepted, payload)
 
 }
