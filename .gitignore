@@ -131,3 +131,4 @@ dist
 
 # data base 
 project/db-data
+project/db-data/pgadmin
