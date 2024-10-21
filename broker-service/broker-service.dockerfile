@@ -11,19 +11,20 @@ WORKDIR /app
 
 COPY . /app
 
-RUN CGO_ENABLED=0 go build -o brokerApp ./cmd/api  
+RUN CGO_ENABLED=0 go build -o brokerAPI ./cmd/api  
 
 # Optional 
-RUN chmod +x /app/brokerApp
+RUN chmod +x /app/brokerAPI
 
 # 2. Build tiny docker container image from builder 
 FROM alpine:latest
 
 RUN mkdir /app
+WORKDIR /app
 
-COPY --from=builder /app/brokerApp /app
+COPY --from=builder /app/brokerAPI /app
 
-CMD ["/app/brokerApp"]
+CMD ["/app/brokerAPI"]
 
 
 

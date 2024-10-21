@@ -25,7 +25,6 @@ type Config struct {
 }
 
 func main() {
-
 	// Todo
 	// 1. Connect to database
 	// 2. server config and start
@@ -69,19 +68,17 @@ func openDB(dsn string) (*sql.DB, error) {
 }
 
 func connectToDB() *sql.DB {
-	dsn := os.Getenv("DNS")
+	dsn := os.Getenv("DSN")
 
 	for {
 
 		DbConnection, err := openDB(dsn)
 
 		if err != nil {
-
 			log.Println("Postgres database server is not ready ...")
 			counts++
 
 		} else {
-
 			log.Println("Database is connected and your are ready to go :)")
 			return DbConnection
 
