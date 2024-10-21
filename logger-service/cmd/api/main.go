@@ -10,7 +10,7 @@ type Config struct {
 }
 
 func main() {
-
+  
 	//app := Config{}
 
 	fmt.Println("Logger service is starting from now on... ;)")
