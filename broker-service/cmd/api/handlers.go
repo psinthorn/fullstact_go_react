@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 )
 
@@ -24,7 +25,6 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out, _ := json.MarshalIndent(payload, "", "\t")
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
 	w.Write(out)
@@ -36,10 +36,13 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	// get data from the request into json format if error then return
 	err := app.readJSON(w, r, &requestPayload)
+	app.writeJSON(w, http.StatusOK, requestPayload)
 	if err != nil {
+		fmt.Println("Found errors")
 		app.errorJSON(w, err)
 		return
 	}
+
 	// check the request action
 	switch requestPayload.Action {
 	case "auth":
@@ -54,23 +57,19 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 // Check authentication with auth payload
 func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 	// Prepare json data
-	jsonDataFromRequest, err := json.MarshalIndent(a, "", "\t")
-	if err != nil {
-		app.errorJSON(w, err)
-		return
-	}
+	jsonDataFromRequest, _ := json.MarshalIndent(a, "", "\t")
 
 	// send request to authentication url with json data for authenticate
 	// use http client to send request
 	// create new http request
 
-	request, err := http.NewRequest("POST", "http://authentication-service/handle", bytes.NewBuffer(jsonDataFromRequest))
+	request, err := http.NewRequest("POST", "http://authentication-service/authenticate", bytes.NewBuffer(jsonDataFromRequest))
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
 
-	client := http.Client{}
+	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
 		app.errorJSON(w, err)
