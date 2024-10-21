@@ -22,17 +22,18 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 
 	//Compare user and password
 	// 1. validate user againts database by email address
+	fmt.Println(requestPayload.Email)
 	user, err := app.Models.User.GetByEmail(requestPayload.Email)
-
 	if err != nil {
-		app.errorJSON(w, errors.New("invalid email address"), http.StatusBadRequest)
+		app.errorJSON(w, errors.New("invalid email address"), http.StatusUnauthorized)
 		return
+
 	}
 
 	// Compare password
 	valid, err := user.PasswordMatches(requestPayload.Password)
 	if err != nil || !valid {
-		app.errorJSON(w, errors.New("invalid password"), http.StatusBadRequest)
+		app.errorJSON(w, errors.New("invalid password"), http.StatusUnauthorized)
 		return
 	}
 

@@ -25,7 +25,6 @@ type Config struct {
 }
 
 func main() {
-
 	// Todo
 	// 1. Connect to database
 	// 2. server config and start

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -36,9 +35,8 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	// get data from the request into json format if error then return
 	err := app.readJSON(w, r, &requestPayload)
-	app.writeJSON(w, http.StatusOK, requestPayload)
+	// app.writeJSON(w, http.StatusOK, requestPayload)
 	if err != nil {
-		fmt.Println("Found errors")
 		app.errorJSON(w, err)
 		return
 	}
@@ -79,9 +77,10 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 	// check the respone status code to make sure we can contact to authentication service
 	if response.StatusCode == http.StatusUnauthorized {
 		app.errorJSON(w, errors.New("invalid user name or password"))
+		// app.errorJSON(w, err)
 		return
 	} else if response.StatusCode != http.StatusAccepted {
-		app.errorJSON(w, errors.New("can't contac to authentication service"))
+		app.errorJSON(w, errors.New("can't connect to authentication service"))
 		return
 	}
 
