@@ -67,7 +67,10 @@ func openDB(dsn string) (*sql.DB, error) {
 	return db, nil
 }
 
+// Ionnect to database
 func connectToDB() *sql.DB {
+
+	// Get DSN from environment that define on docker compose
 	dsn := os.Getenv("DSN")
 
 	for {
@@ -75,23 +78,29 @@ func connectToDB() *sql.DB {
 		DbConnection, err := openDB(dsn)
 
 		if err != nil {
+
 			log.Println("Postgres database server is not ready ...")
 			counts++
 
 		} else {
+
 			log.Println("Database is connected and your are ready to go :)")
 			return DbConnection
 
 		}
 
 		if counts > 10 {
+
 			log.Println(err)
 			return nil
+
 		}
 
+		// if can't connect to databse server after 10 times trying then take sleep for 2 seconds and thry to connect again
 		log.Println("Can't connect to Database will try to re-connect again")
 		time.Sleep(time.Second * 2)
 		continue
+
 	}
 
 }
