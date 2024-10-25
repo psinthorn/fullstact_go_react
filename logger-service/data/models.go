@@ -2,10 +2,12 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -17,11 +19,11 @@ type Models struct {
 }
 
 type LogEntry struct {
-	ID        string    `bson:"_id,omitempty" json:"id,omitempty"`
-	Name      string    `bson:"name" json:"name"`
-	Data      string    `bson:"data" json:"data"`
-	CreatedAt time.Time `bson:"created_at" json:"created_at"`
-	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
+	ID        string    `bson:"_id,omitempty"json:"id,omitempty"`
+	Name      string    `bson:"name"json:"name"`
+	Data      string    `bson:"data"json:"data"`
+	CreatedAt time.Time `bson:"created_at"json:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"json:"updated_at"`
 }
 
 func New(mongo *mongo.Client) Models {
@@ -51,7 +53,7 @@ func (l *LogEntry) Insert(logEntry LogEntry) error {
 }
 
 // Get and show all cuurent logs
-func (l *LogEntry) AllLogs() ([]*LogEntry, error) {
+func (l *LogEntry) GetAll() ([]*LogEntry, error) {
 	// declair variable
 	var logs []*LogEntry
 
@@ -88,4 +90,97 @@ func (l *LogEntry) AllLogs() ([]*LogEntry, error) {
 
 	return logs, nil
 
+}
+
+// GetById: get log by id
+func (l *LogEntry) GetById(id string) (*LogEntry, error) {
+	// declair varable
+	var logEntry LogEntry
+
+	// if can't connect to database within 15 seccond then cancle
+	ctx, cancle := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancle()
+
+	// select database and collection
+	collection := client.Database("logs").Collection("logs")
+
+	logId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		fmt.Println("error: ", err)
+		return nil, err
+	}
+
+	err = collection.FindOne(ctx, bson.M{"_id": logId}).Decode(&logEntry)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return nil, err
+	}
+
+	return &logEntry, nil
+}
+
+// DropCollection:
+func (l *LogEntry) DropCollection() error {
+	// Create context if can't connect to database within 15 seconds the cancle process
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	// Select collection to work with
+	collection := client.Database("logs").Collection("logs")
+	err := collection.Drop(ctx)
+	if err != nil {
+		fmt.Println("error: ", err)
+		return err
+	}
+
+	return nil
+
+}
+
+// Update:
+func (l *LogEntry) Update() (*mongo.UpdateResult, error) {
+	// Declair variable that return from updated
+	//var logUpdate LogEntry
+
+	// create context if can't connect to database within 15 seconds then cancel
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	// select databse and collection to work with
+	collection := client.Database("logs").Collection("logs")
+
+	// get log id with primitive objectid
+	logId, err := primitive.ObjectIDFromHex(l.ID)
+	if err != nil {
+		fmt.Println("error: ", err)
+	}
+
+	// update
+	result, err := collection.UpdateOne(
+		ctx,
+		bson.M{"_id": logId},
+		bson.D{
+			{"$set", bson.D{
+				{
+					"name",
+					l.Name,
+				},
+				{
+					"data",
+					l.Data,
+				},
+				{
+					"updated_at",
+					l.UpdatedAt,
+				},
+			}},
+		},
+	)
+
+	if err != nil {
+		fmt.Println("error: ", err)
+		return nil, err
+	}
+
+	return result, nil
 }
