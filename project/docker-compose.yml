@@ -27,8 +27,8 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      - PGADMIN_DEFAULT_EMAIL=adminx@adminx.com
-      - PGADMIN_DEFAULT_PASSWORD=adminx
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - 5050:80
     volumes:
@@ -41,9 +41,9 @@ services:
     ports:
       - 27017:27017
     environment:
-      - MONGO_INITDB_DATABASE=logs
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
       
     deploy:
       mode: replicated
@@ -82,6 +82,8 @@ services:
   
   broker-service:
     build:
+      # context refer to app folder
+      # and path to dockerfile 
       context: ./../broker-service
       dockerfile: ./../broker-service/broker-service.dockerfile
     restart: always
