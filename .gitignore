@@ -129,6 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# data base 
+# database 
 project/db-data
 project/db-data/pgadmin
+mongo-data
+db-data

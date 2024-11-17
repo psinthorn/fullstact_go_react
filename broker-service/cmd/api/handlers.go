@@ -9,12 +9,18 @@ import (
 
 type RequestPayload struct {
 	Action string      `json:"action"`
+	Data   any         `json:"data"`
 	Auth   AuthPayload `json:"auth,omitempty"` // auth is store user and password from requst
+	Logger LogPayload  `json:"logger,omitempty"`
 }
 
 type AuthPayload struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
+}
+
+type LogPayload struct {
+	Data string `json:"data"`
 }
 
 func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
@@ -33,6 +39,8 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	// create variables
 	var requestPayload RequestPayload
 
+	// auto name between action and service name (action_name + service_name)
+
 	// get data from the request into json format if error then return
 	err := app.readJSON(w, r, &requestPayload)
 	// app.writeJSON(w, http.StatusOK, requestPayload)
@@ -45,7 +53,8 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	switch requestPayload.Action {
 	case "auth":
 		app.authenticate(w, requestPayload.Auth)
-
+	case "logger":
+		app.logger(w, requestPayload)
 	default:
 		app.errorJSON(w, errors.New("unknow action"))
 	}
@@ -98,5 +107,10 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 
 	// return data to request
 	app.writeJSON(w, http.StatusAccepted, payload)
+
+}
+
+// Logger
+func (app *Config) logger(w http.ResponseWriter, dataPayload RequestPayload) {
 
 }
