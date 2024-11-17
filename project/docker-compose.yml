@@ -1,8 +1,7 @@
 version: '3'
 
 services:
-
-  # System requirement before start to implement any other apps 
+  # System requirement before start to implement any other apps
   postgres:
     image: 'postgres:14.2'
     restart: always
@@ -26,19 +25,61 @@ services:
   pgadmin:
     # pgadmin container service work depends on postgres container service (db_postgres)
     image: dpage/pgadmin4
+    restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=adminx@adminx.com
       - PGADMIN_DEFAULT_PASSWORD=adminx
     ports:
       - 5050:80
-    restart: always
     volumes:
       - ./db-data/pgadmin:/var/lib/pgadmin
     depends_on:
       - postgres
 
-# Start to docker container from here 
+  mongo:
+    image: 'mongo:4.2.16-bionic'
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=logs
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./mongo_data/mongo/:/data/db
 
+  # Mongo-Express container service 
+  # container name 
+  mongo-express:
+    image: mongo-express:latest
+    ports:  
+      - 8889:8081
+    environment: 
+    # default username and password for mongo-express is admin:pass
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin #refer to mongodb root username 
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin #refer to mongodb root password 
+      - ME_CONFIG_MONGODB_SERVER=mongo #refer mongodv container name 
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      # - ME_CONFIG_BASICAUTH_USERNAME=admin
+      # - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      # - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    
+      # - ME_CONFIG_MONGODB_PORT=27017
+      # - ME_CONFIG_MONGODB_URL="mongodb://mongo:27017"
+    links:
+      - mongo
+    # volumes:
+    #   - ./config.js:/node_modules/mongo-express/config.js
+    depends_on:
+      - mongo
+
+
+  
+  # Docker container for application is from here
+  
   broker-service:
     build:
       context: ./../broker-service
@@ -49,19 +90,18 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-  
+
   authentication-service:
     build:
-      # context refer to app folder 
+      # context refer to app folder
       context: ./../auth-service
       dockerfile: ./../auth-service/auth-service.dockerfile
     restart: always
     ports:
-      - "8081:80"
+      - '8081:80'
     deploy:
       mode: replicated
       replicas: 1
-    environment: 
-      DSN: "host=postgres port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UTC connect_timeout=5"
-    
+    environment:
+      DSN: 'host=postgres port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UTC connect_timeout=5'
 
