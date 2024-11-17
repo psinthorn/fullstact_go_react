@@ -41,7 +41,7 @@ services:
     ports:
       - 27017:27017
     environment:
-      - MONGO_INITDB_DATABASE=logs
+      # - MONGO_INITDB_DATABASE=logs
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
 
@@ -50,6 +50,7 @@ services:
       replicas: 1
     volumes:
       - ./mongo_data/mongo/:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
 
   # Mongo-Express container service
   # container name
@@ -63,9 +64,9 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=admin #refer to mongodb root password
       - ME_CONFIG_MONGODB_SERVER=mongo #refer mongodv container name
       - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-      # - ME_CONFIG_BASICAUTH_USERNAME=admin
-      # - ME_CONFIG_BASICAUTH_PASSWORD=admin
-      # - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
 
       # - ME_CONFIG_MONGODB_PORT=27017
       # - ME_CONFIG_MONGODB_URL="mongodb://mongo:27017"
