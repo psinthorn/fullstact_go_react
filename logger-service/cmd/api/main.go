@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/labstack/gommon/log"
+	"github.com/psinthorn/microservice_fullstack_golang_react_nextjs/data"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -15,7 +16,7 @@ import (
 // set up server serivce port
 const (
 	webPort  = "80"
-	mongoURL = "mongodb://mongo:27017"
+	mongoURL = "mongodb://localhost:27017"
 	rpcPort  = "5001"
 	gRpcPort = "50001"
 )
@@ -23,18 +24,23 @@ const (
 var client *mongo.Client
 
 type Config struct {
-	DB *sql.DB
+	DB     *sql.DB
+	Models data.Models
 }
 
 func main() {
 
-	app := Config{}
+	app := Config{
+		Models: data.New(client),
+	}
 
 	// connect to database
 	client, err := connectToMongoDB()
 	if err != nil {
 		log.Panic(err)
 	}
+
+	// fmt.Println("Connected to MongoDB")
 
 	// create context in case of disconnect
 	ctx, cancle := context.WithTimeout(context.Background(), 15*time.Second)
@@ -48,8 +54,12 @@ func main() {
 	}()
 
 	// http server start from here
+	fmt.Println("---------------------------------------------")
 	log.Printf("Logger service is staring on port: %s", webPort)
-
+	fmt.Println("---------------------------------------------")
+	fmt.Printf("Logger service is staring on port: %s", webPort)
+	fmt.Println("")
+	fmt.Println("---------------------------------------------")
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%s", webPort),
 		Handler: app.routes(),
@@ -67,16 +77,17 @@ func connectToMongoDB() (*mongo.Client, error) {
 	// create MongoDB clients options
 	clientOptions := options.Client().ApplyURI(mongoURL)
 	clientOptions.SetAuth(options.Credential{
-		Username: "admin",
-		Password: "admin",
+		Username: "adminx",
+		Password: "adminx",
 	})
 
 	// create connection
 	conn, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
-		log.Print("can't connect to MongoDB error: %s", err)
+		log.Printf("can't connect to MongoDB error: %s", err)
 		return nil, err
 	}
-
+	fmt.Println("")
+	fmt.Println("Connected to MongoDB")
 	return conn, nil
 }

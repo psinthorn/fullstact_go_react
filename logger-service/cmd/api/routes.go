@@ -26,7 +26,7 @@ func (app *Config) routes() http.Handler {
 
 	//  Router link list start here
 	mux.Get("/welcome", app.Welcome)
-	mux.Post("/logger", app.NewLog)
+	mux.Post("/logger", app.WriteLog)
 
 	return mux
 }
