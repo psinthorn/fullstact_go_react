@@ -22,6 +22,7 @@ type LogEntry struct {
 	ID        string    `bson:"_id,omitempty"json:"id,omitempty"`
 	Name      string    `bson:"name"json:"name"`
 	Data      string    `bson:"data"json:"data"`
+	Level     string    `bson:"level,omitempty"json:"level,omitempty"`
 	CreatedAt time.Time `bson:"created_at"json:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at"json:"updated_at"`
 }
@@ -34,12 +35,13 @@ func New(mongo *mongo.Client) Models {
 
 func (l *LogEntry) Insert(logEntry LogEntry) error {
 	// mongo context connection and declair collection
-	collection := client.Database("logs").Collection("logs")
+	collection := client.Database("f2logs").Collection("logs")
 
 	// insert Log to collection
 	_, err := collection.InsertOne(context.TODO(), LogEntry{
 		Name:      logEntry.Name,
 		Data:      logEntry.Data,
+		Level:     logEntry.Level,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	})
@@ -62,7 +64,7 @@ func (l *LogEntry) GetAll() ([]*LogEntry, error) {
 	defer cancel()
 
 	// select database and collection
-	collection := client.Database("logs").Collection("logs")
+	collection := client.Database("f2logs").Collection("logs")
 
 	// declaire options method when find all logs
 	opts := options.Find()
@@ -102,7 +104,7 @@ func (l *LogEntry) GetById(id string) (*LogEntry, error) {
 	defer cancle()
 
 	// select database and collection
-	collection := client.Database("logs").Collection("logs")
+	collection := client.Database("f2logs").Collection("logs")
 
 	logId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -126,7 +128,7 @@ func (l *LogEntry) DropCollection() error {
 	defer cancel()
 
 	// Select collection to work with
-	collection := client.Database("logs").Collection("logs")
+	collection := client.Database("f2logs").Collection("logs")
 	err := collection.Drop(ctx)
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -147,7 +149,7 @@ func (l *LogEntry) Update() (*mongo.UpdateResult, error) {
 	defer cancel()
 
 	// select databse and collection to work with
-	collection := client.Database("logs").Collection("logs")
+	collection := client.Database("f2logs").Collection("logs")
 
 	// get log id with primitive objectid
 	logId, err := primitive.ObjectIDFromHex(l.ID)
