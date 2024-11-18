@@ -6,8 +6,8 @@ module.exports = {
     auth: [
       {
         database: 'logs',
-        username: 'admin',
-        password: 'admin',
+        username: 'adminx',
+        password: 'adminx',
       },
     ],
   },
