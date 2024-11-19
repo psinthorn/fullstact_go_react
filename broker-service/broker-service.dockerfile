@@ -20,6 +20,7 @@ RUN chmod +x /app/brokerAPI
 FROM alpine:latest
 
 RUN mkdir /app
+
 WORKDIR /app
 
 COPY --from=builder /app/brokerAPI /app

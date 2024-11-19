@@ -16,7 +16,7 @@ import (
 // set up server serivce port
 const (
 	webPort  = "80"
-	mongoURL = "mongodb://localhost:27017"
+	mongoURL = "mongodb://mongo:27017"
 	rpcPort  = "5001"
 	gRpcPort = "50001"
 )

@@ -25,7 +25,7 @@ func (app *Config) routes() http.Handler {
 	mux.Use(middleware.Heartbeat("/ping"))
 
 	//  Router link list start here
-	mux.Get("/welcome", app.Welcome)
+	mux.Get("/", app.Welcome)
 	mux.Post("/logger", app.WriteLog)
 
 	return mux
