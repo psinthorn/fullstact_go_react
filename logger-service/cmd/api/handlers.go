@@ -18,7 +18,13 @@ type JSONPayload struct {
 }
 
 func (app *Config) Welcome(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("Welcme to Logger")
+
+	payload := jsonResponse{
+		Error:   false,
+		Message: "Welcome to Logger Service",
+	}
+	app.writeJSON(w, http.StatusOK, payload)
+
 }
 
 func (app *Config) WriteLog(w http.ResponseWriter, r *http.Request) {
